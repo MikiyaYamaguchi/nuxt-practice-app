@@ -1,13 +1,15 @@
 <script setup lang="ts">
-const msg = ref("まだ");
-const onButtonClick = (label: string, event: Event): void => {
-  const target = event.target as HTMLButtonElement;
-  const text = target.innerHTML;
-  msg.value = `${label}と${text}`;
-};
+const msg = reactive({
+  msg1: "",
+  msg2: "",
+});
+watch(msg, () => {
+  msg.msg2 = msg.msg1;
+});
 </script>
 
 <template>
-  <p>{{ msg }}</p>
-  <button v-on:click="onButtonClick('Hello', $event)">こんにちは</button>
+  <p>{{ msg.msg1 }}</p>
+  <p>ここにも表示されるよ：{{ msg.msg2 }}</p>
+  <input type="text" v-model="msg.msg1" />
 </template>
