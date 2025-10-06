@@ -4,6 +4,24 @@ const msg = reactive({
   msg2: "",
   msg3: "",
 });
+const members = [
+  {
+    id: 1,
+    name: "山田太郎",
+    age: "25",
+  },
+  {
+    id: 2,
+    name: "山本三郎",
+    age: "29",
+  },
+  {
+    id: 3,
+    name: "田中二郎",
+    age: "18",
+  },
+];
+const count = ref(0);
 watch(msg, () => {
   msg.msg2 = msg.msg1;
 });
@@ -12,6 +30,7 @@ const showHello = (): void => {
   console.log("Hello");
 };
 onMounted(() => {
+  count.value = Math.round(Math.random() * 100);
   setTimeout(() => {
     msg.msg3 = "こんにちは！";
   }, 2000);
@@ -28,6 +47,19 @@ onMounted(() => {
   <section v-pre>
     <p v-on:click="showHello">{{ msg.msg1 }}</p>
   </section>
+  <p>
+    点数は{{ count }}点で、
+    <span v-if="count >= 80">優です。</span>
+    <span v-else-if="count >= 70">良です。</span>
+    <span v-else-if="count >= 60">可です。</span>
+    <span v-else>不可です。</span>
+  </p>
+  <p v-show="count >= 80">よく頑張ったね！</p>
+  <ul>
+    <li v-for="member in members" v-bind:key="member.id">
+      {{ member.name }}（{{ member.age }}歳）
+    </li>
+  </ul>
 </template>
 
 <style>
