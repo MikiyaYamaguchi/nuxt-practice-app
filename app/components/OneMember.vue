@@ -7,11 +7,19 @@ interface Props {
   points: number;
   note?: string;
 }
+
+//Emits型を定義
+type Emits = {
+  //プロパティ名には、親コンポーネント側のv-onディレクティブに設定するイベント名を付ける。
+  //プロパティの値には、ラベル付きタプルを設定する。親コンポーネントにデータを渡すための引数を設定。
+  incrementPoint: [id: number];
+};
+
 //Porpsオブジェクトの設定
 const props = defineProps<Props>();
 
-//コンポーネント内で利用するポイント数のテンプレート変数
-const localPoints = ref(props.points);
+//Emitの設定
+const emit = defineEmits<Emits>();
 
 //Propsのnoteを加工する算出プロパティ
 const localNote = computed((): string => {
@@ -24,7 +32,7 @@ const localNote = computed((): string => {
 
 //[ポイント加算]ボタンをクリックした時のメソッド
 const pointUp = (): void => {
-  localPoints.value++;
+  emit("incrementPoint", props.id);
 };
 </script>
 
@@ -37,7 +45,7 @@ const pointUp = (): void => {
       <dt>メールアドレス</dt>
       <dd>{{ email }}</dd>
       <dt>保有ポイント</dt>
-      <dd>{{ localPoints }}</dd>
+      <dd>{{ points }}</dd>
       <dt>備考</dt>
       <dd>{{ localNote }}</dd>
     </dl>
