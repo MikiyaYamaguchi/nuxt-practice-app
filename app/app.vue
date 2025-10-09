@@ -1,78 +1,30 @@
 <script setup lang="ts">
-import { computed } from "vue";
+import type { Member } from "./interfaces";
 
-//会員リストデータを用意
-const memberListInit = new Map<number, Member>();
-memberListInit.set(33456, {
-  id: 33456,
-  name: "田中太郎",
-  email: "bow@example.com",
-  points: 35,
-  note: "初回入会特典あり。",
+//会員情報をステートとして用意
+useState<Map<number, Member>>("memberList", (): Map<number, Member> => {
+  const memberListInit = new Map<number, Member>();
+  memberListInit.set(33456, {
+    id: 33456,
+    name: "田中太郎",
+    email: "bow@example.com",
+    points: 35,
+    note: "初回入会特典あり",
+  });
+  memberListInit.set(47783, {
+    id: 47783,
+    name: "鈴木二郎",
+    email: "mue@example.com",
+    points: 53,
+  });
+  return memberListInit;
 });
-memberListInit.set(47783, {
-  id: 47783,
-  name: "鈴木二郎",
-  email: "mue@example.com",
-  points: 53,
+useState<string>("message", (): string => {
+  const messageInit = "こんにちは！！！！！";
+  return messageInit;
 });
-const memberList = ref(memberListInit);
-
-//会員リスト内の全会員のポイント合計の算出プロパティ
-const totalPoints = computed((): number => {
-  let total = 0;
-  for (const member of memberList.value.values()) {
-    total += member.points;
-  }
-  return total;
-});
-
-//Emitにより実行されるメソッド
-const onIncrementPoint = (id: number): void => {
-  //処理関数のidに該当する会員情報オブジェクトを取得
-  const member = memberList.value.get(id);
-  //会員情報オブジェクトが存在するなら。。。
-  if (member != undefined) {
-    member.points++;
-  }
-};
-
-//会員情報インターフェース
-interface Member {
-  id: number;
-  name: string;
-  email: string;
-  points: number;
-  note?: string;
-}
 </script>
 
 <template>
-  <section>
-    <h1>コンポーネントの基礎</h1>
-    <OneSection />
-    <OneSection />
-    <PartsTheSupplement />
-  </section>
-  <section>
-    <h1>会員リスト</h1>
-    <p>全会員の保有ポイントの合計：{{ totalPoints }}</p>
-    <OneMember
-      v-for="[id, member] in memberList"
-      v-bind:key="id"
-      v-bind:id="id"
-      v-bind:name="member.name"
-      v-bind:email="member.email"
-      v-bind:points="member.points"
-      v-bind:note="member.note"
-      v-on:incrementPoint="onIncrementPoint"
-    />
-  </section>
+  <TheBaseSection />
 </template>
-
-<style>
-section {
-  border: blue 1px solid;
-  margin: 10px;
-}
-</style>

@@ -1,29 +1,23 @@
 <script setup lang="ts">
+import type { Member } from "../interfaces";
+
 //Propsインターフェースの定義
 interface Props {
   id: number;
-  name: string;
-  email: string;
-  points: number;
-  note?: string;
 }
-
-//Emits型を定義
-type Emits = {
-  //プロパティ名には、親コンポーネント側のv-onディレクティブに設定するイベント名を付ける。
-  //プロパティの値には、ラベル付きタプルを設定する。親コンポーネントにデータを渡すための引数を設定。
-  incrementPoint: [id: number];
-};
 
 //Porpsオブジェクトの設定
 const props = defineProps<Props>();
 
-//Emitの設定
-const emit = defineEmits<Emits>();
+//会員リストをステートから取得
+const memberList = useState<Map<number, Member>>("memberList");
+
+//該当する会員情報の取得
+const member = memberList.value.get(props.id) as Member;
 
 //Propsのnoteを加工する算出プロパティ
 const localNote = computed((): string => {
-  let localNote = props.note;
+  let localNote = member.note;
   if (localNote == undefined) {
     localNote = "--";
   }
@@ -32,20 +26,20 @@ const localNote = computed((): string => {
 
 //[ポイント加算]ボタンをクリックした時のメソッド
 const pointUp = (): void => {
-  emit("incrementPoint", props.id);
+  member.points++;
 };
 </script>
 
 <template>
   <section class="box">
-    <h4>{{ name }}さんの情報</h4>
+    <h4>{{ member.name }}さんの情報</h4>
     <dl>
       <dt>ID</dt>
       <dd>{{ id }}</dd>
       <dt>メールアドレス</dt>
-      <dd>{{ email }}</dd>
+      <dd>{{ member.name }}</dd>
       <dt>保有ポイント</dt>
-      <dd>{{ points }}</dd>
+      <dd>{{ member.points }}</dd>
       <dt>備考</dt>
       <dd>{{ localNote }}</dd>
     </dl>
