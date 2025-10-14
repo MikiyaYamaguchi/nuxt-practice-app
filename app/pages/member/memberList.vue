@@ -1,6 +1,14 @@
 <script setup lang="ts">
 import type { Member } from "@/interfaces";
 
+//ヘッダー情報設定
+const PAGE_TITLE = "会員リスト";
+const SITE_DESCRIPTION = "会員管理アプリケーションの会員リストページです。";
+useHead({
+  title: PAGE_TITLE,
+  meta: [{ name: "description", content: SITE_DESCRIPTION }],
+});
+
 //テンプレートの指定
 definePageMeta({
   layout: "member",
@@ -14,11 +22,11 @@ const memberList = useState<Map<number, Member>>("memberList");
   <nav id="breadcrumbs">
     <ul>
       <li><NuxtLink v-bind:to="{ name: 'index' }">TOP</NuxtLink></li>
-      <li>会員リスト</li>
+      <li>{{ PAGE_TITLE }}</li>
     </ul>
   </nav>
   <section>
-    <h2>会員リスト</h2>
+    <h2>{{ PAGE_TITLE }}</h2>
     <p>
       新規登録は<NuxtLink v-bind:to="{ name: 'member-memberAdd' }"
         >こちら</NuxtLink

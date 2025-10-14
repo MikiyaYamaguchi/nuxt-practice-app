@@ -1,6 +1,24 @@
 <script setup lang="ts">
 import type { Member } from "./interfaces";
 
+//ヘッダー情報設定
+const SITE_TITLE = "会員管理アプリケーション";
+const SITE_DESCRIPTION = "会員管理アプリケーションのサンプルになります。";
+const SITE_OGP = "logo_opg.jpg";
+useHead({
+  titleTemplate: (titleChunk: string | undefined): string => {
+    let title = SITE_TITLE;
+    if (titleChunk != undefined) {
+      title = `${titleChunk} | ${SITE_TITLE}`;
+    }
+    return title;
+  },
+  meta: [
+    { name: "description", content: SITE_DESCRIPTION },
+    { name: "og:image", content: SITE_OGP },
+  ],
+});
+
 //会員情報をステートとして用意
 useState<Map<number, Member>>("memberList", (): Map<number, Member> => {
   const memberListInit = new Map<number, Member>();

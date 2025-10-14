@@ -1,6 +1,14 @@
 <script setup lang="ts">
 import type { Member } from "@/interfaces";
 
+//ヘッダー情報設定
+const PAGE_TITLE = "会員情報追加";
+const SITE_DESCRIPTION = "会員管理アプリケーションの会員情報追加ページです。";
+useHead({
+  title: PAGE_TITLE,
+  meta: [{ name: "description", content: SITE_DESCRIPTION }],
+});
+
 //テンプレートの指定
 definePageMeta({
   layout: "member",
@@ -34,11 +42,11 @@ const onAdd = (): void => {
           >会員リスト</NuxtLink
         >
       </li>
-      <li>会員情報追加</li>
+      <li>{{ PAGE_TITLE }}</li>
     </ul>
   </nav>
   <section>
-    <h2>会員情報追加</h2>
+    <h2>{{ PAGE_TITLE }}</h2>
     <p>情報を追加し、登録ボタンをクリックしてください。</p>
     <form v-on:submit.prevent="onAdd">
       <dl>
