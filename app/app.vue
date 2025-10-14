@@ -27,7 +27,7 @@ useState<string>("message", (): string => {
 
 <template>
   <header>
-    <h1>ルーティングサンプル</h1>
+    <h1>ネストされたルーティングサンプル</h1>
   </header>
   <main>
     <NuxtPage />
