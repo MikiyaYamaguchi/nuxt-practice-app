@@ -1,12 +1,16 @@
 <script setup lang="ts">
 import type { Member } from "@/interfaces";
 
+//テンプレートの指定
+definePageMeta({
+  layout: "member",
+});
+
 //会員情報リストをステートカラ取得
 const memberList = useState<Map<number, Member>>("memberList");
 </script>
 
 <template>
-  <h1>会員管理</h1>
   <nav id="breadcrumbs">
     <ul>
       <li><NuxtLink v-bind:to="{ name: 'index' }">TOP</NuxtLink></li>
