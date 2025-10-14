@@ -47,5 +47,6 @@ const localNote = computed((): string => {
       <dt>備考</dt>
       <dd>{{ localNote }}</dd>
     </dl>
+    <p>{{ $route.params }}</p>
   </section>
 </template>
