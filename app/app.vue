@@ -1,45 +1,25 @@
 <script setup lang="ts">
-import type { Member } from "./interfaces";
+import type { City } from "@/fetch/interface";
 
-//ヘッダー情報設定
-const SITE_TITLE = "会員管理アプリケーション";
-const SITE_DESCRIPTION = "会員管理アプリケーションのサンプルになります。";
-const SITE_OGP = "logo_opg.jpg";
-useHead({
-  titleTemplate: (titleChunk: string | undefined): string => {
-    let title = SITE_TITLE;
-    if (titleChunk != undefined) {
-      title = `${titleChunk} | ${SITE_TITLE}`;
-    }
-    return title;
-  },
-  meta: [
-    { name: "description", content: SITE_DESCRIPTION },
-    { name: "og:image", content: SITE_OGP },
-  ],
-});
-
-//会員情報をステートとして用意
-useState<Map<number, Member>>("memberList", (): Map<number, Member> => {
-  const memberListInit = new Map<number, Member>();
-  memberListInit.set(33456, {
-    id: 33456,
-    name: "田中太郎",
-    email: "bow@example.com",
-    points: 35,
-    note: "初回入会特典あり",
+//都市情報リストをステートとして用意
+useState<Map<number, City>>("cityList", (): Map<number, City> => {
+  const cityListInit = new Map<number, City>();
+  cityListInit.set(1856184, {
+    id: 1856184,
+    name: "流山",
+    q: "Nagareyama",
   });
-  memberListInit.set(47783, {
-    id: 47783,
-    name: "鈴木二郎",
-    email: "mue@example.com",
-    points: 53,
+  cityListInit.set(1859642, {
+    id: 1859642,
+    name: "川崎市",
+    q: "Kawasaki",
   });
-  return memberListInit;
-});
-useState<string>("message", (): string => {
-  const messageInit = "こんにちは！！！！！";
-  return messageInit;
+  cityListInit.set(1859740, {
+    id: 1859740,
+    name: "川越市",
+    q: "Kawagoe",
+  });
+  return cityListInit;
 });
 </script>
 
@@ -48,29 +28,3 @@ useState<string>("message", (): string => {
     <NuxtPage />
   </NuxtLayout>
 </template>
-
-<style lang="scss">
-main {
-  border: blue 1px solid;
-  padding: 10px;
-}
-#breadcrumbs {
-  margin-left: 0;
-  ul {
-    padding-left: 0;
-    li {
-      display: inline;
-      list-style-type: none;
-      &.current {
-        color: red;
-      }
-      &:before {
-        content: ">";
-      }
-      &:first-child:before {
-        content: none;
-      }
-    }
-  }
-}
-</style>
