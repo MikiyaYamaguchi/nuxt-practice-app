@@ -10,8 +10,7 @@ const selectedCity = computed((): City => {
   const idNo = Number(route.params.id);
   return cityList.value.get(idNo) as City;
 });
-//天気情報のテンプレート変数を用意
-const weatherDescription = ref("");
+//useAsyncData関数で天気情報を取得
 const asyncData = await useAsyncData(
   `/WeatherInfo/${route.params.id}`,
   (): Promise<any> => {
@@ -31,13 +30,14 @@ const asyncData = await useAsyncData(
     return response;
   },
   {
-    pick: ["weather"],
+    transform: (data: any): string => {
+      const weatherArray = data.weather;
+      const weather = weatherArray[0];
+      return weather.description;
+    },
   }
 );
-const data = asyncData.data;
-const weatherArray = data.value.weather;
-const weather = weatherArray[0];
-weatherDescription.value = weather.description;
+const weatherDescription = asyncData.data;
 </script>
 
 <template>
