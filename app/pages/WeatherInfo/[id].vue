@@ -29,6 +29,9 @@ const asyncData = await useAsyncData(
     const urlFull = `${weatherInfoUrl}?${queryParams}`;
     const response = $fetch(urlFull);
     return response;
+  },
+  {
+    pick: ["weather"],
   }
 );
 const data = asyncData.data;
