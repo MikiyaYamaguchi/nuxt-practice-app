@@ -1,6 +1,6 @@
 <template>
   <header>
-    <h1>useAsyncDataサンプル</h1>
+    <h1>useFetchサンプル</h1>
   </header>
   <main>
     <slot />
