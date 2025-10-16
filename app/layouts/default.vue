@@ -1,6 +1,6 @@
 <template>
   <header>
-    <h1>useLazyAsyncDataサンプル</h1>
+    <h1>リフレッシュサンプル</h1>
   </header>
   <main>
     <slot />
