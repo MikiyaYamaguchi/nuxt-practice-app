@@ -10,21 +10,26 @@ const selectedCity = computed((): City => {
   const idNo = Number(route.params.id);
   return cityList.value.get(idNo) as City;
 });
-const params: {
-  lang: string;
-  q: string;
-  appid: string;
-} = {
-  lang: "ja",
-  q: selectedCity.value.q,
-  appid: "64ecb065b2b08878e61593c989ee71e5",
-};
-//useFetchでデータ取得
-const asyncData = await useFetch(
-  "https://api.openweathermap.org/data/2.5/weather",
+//useAsyncData関数で天気情報を取得
+const asyncData = useLazyAsyncData(
+  `/WeatherInfo/${route.params.id}`,
+  (): Promise<any> => {
+    const weatherInfoUrl = "https://api.openweathermap.org/data/2.5/weather";
+    const params: {
+      lang: string;
+      q: string;
+      appid: string;
+    } = {
+      lang: "ja",
+      q: selectedCity.value.q,
+      appid: "64ecb065b2b08878e61593c989ee71e5",
+    };
+    const queryParams = new URLSearchParams(params);
+    const urlFull = `${weatherInfoUrl}?${queryParams}`;
+    const response = $fetch(urlFull);
+    return response;
+  },
   {
-    key: `/WeatherInfo/${route.params.id}`,
-    query: params,
     transform: (data: any): string => {
       const weatherArray = data.weather;
       const weather = weatherArray[0];
@@ -33,10 +38,12 @@ const asyncData = await useFetch(
   }
 );
 const weatherDescription = asyncData.data;
+const pending = asyncData.pending;
 </script>
 
 <template>
-  <section>
+  <p v-if="pending">データ取得中...</p>
+  <section v-else>
     <h2>{{ selectedCity.name }}</h2>
     <p>{{ weatherDescription }}</p>
   </section>
