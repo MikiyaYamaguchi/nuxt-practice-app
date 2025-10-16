@@ -1,6 +1,6 @@
 <template>
   <header>
-    <h1>リフレッシュサンプル</h1>
+    <h1>ウォッチサンプル</h1>
   </header>
   <main>
     <slot />
