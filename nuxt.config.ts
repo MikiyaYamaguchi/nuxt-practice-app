@@ -5,7 +5,7 @@ export default defineNuxtConfig({
   runtimeConfig: {
     public: {
       weatherInfoUrl: "https://api.openweathermap.org/data/2.5/weather",
-      weathermapAppid: "64ecb065b2b08878e61593c989ee71e5"
+      weathermapAppid: ""
     }
   }
 })
