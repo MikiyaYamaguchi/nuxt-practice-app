@@ -10,33 +10,8 @@ const selectedCity = computed((): City => {
   const idNo = Number(route.params.id);
   return cityList.value.get(idNo) as City;
 });
-//useAsyncData関数で天気情報を取得
-const asyncData = useLazyAsyncData(
-  `/WeatherInfo/${route.params.id}`,
-  (): Promise<any> => {
-    const weatherInfoUrl = "https://api.openweathermap.org/data/2.5/weather";
-    const params: {
-      lang: string;
-      q: string;
-      appid: string;
-    } = {
-      lang: "ja",
-      q: selectedCity.value.q,
-      appid: "64ecb065b2b08878e61593c989ee71e5",
-    };
-    const queryParams = new URLSearchParams(params);
-    const urlFull = `${weatherInfoUrl}?${queryParams}`;
-    const response = $fetch(urlFull);
-    return response;
-  },
-  {
-    transform: (data: any): string => {
-      const weatherArray = data.weather;
-      const weather = weatherArray[0];
-      return weather.description;
-    },
-  }
-);
+//コンポーザブルからデータ取得
+const asyncData = useWeatherInfoFetcher(selectedCity.value);
 const weatherDescription = asyncData.data;
 const pending = asyncData.pending;
 </script>
