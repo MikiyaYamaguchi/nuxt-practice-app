@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import type { Member } from "@/interfaces";
-
 //ヘッダー情報設定
 const PAGE_TITLE = "会員詳細情報";
 const SITE_DESCRIPTION = "会員管理アプリケーションの会員詳細情報ページです。";
@@ -16,17 +14,16 @@ definePageMeta({
 
 //ルートオブジェクトを取得
 const router = useRoute();
-//会員情報リストをステートから取得
-const memberList = useState<Map<number, Member>>("memberList");
-//会員情報リストから該当会員情報を取得
-const member = computed((): Member => {
-  const id = Number(router.params.id);
-  return memberList.value.get(id) as Member;
+//サーバーAPIエンドポイントから会員詳細情報を取得
+const asyncData = useLazyFetch("/api/getOneMemberInfo", {
+  query: { id: router.params.id },
 });
+const member = asyncData.data;
+const pending = asyncData.pending;
 //備考データがない場合の対応
 const localNote = computed((): string => {
   let localNote = "--";
-  if (member.value.note != undefined) {
+  if (member.value != null && member.value.note != undefined) {
     localNote = member.value.note;
   }
   return localNote;
@@ -42,23 +39,23 @@ const localNote = computed((): string => {
           >会員リスト</NuxtLink
         >
       </li>
-      <li>{{ `${PAGE_TITLE}：${member.name}` }}</li>
+      <li>{{ `${PAGE_TITLE}：${member?.name}` }}</li>
     </ul>
   </nav>
-  <section>
+  <p v-if="pending">データ取得中...</p>
+  <section v-else>
     <h2>{{ PAGE_TITLE }}</h2>
     <dl>
       <dt>ID</dt>
-      <dd>{{ member.id }}</dd>
+      <dd>{{ member?.id }}</dd>
       <dt>名前</dt>
-      <dd>{{ member.name }}</dd>
+      <dd>{{ member?.name }}</dd>
       <dt>メールアドレス</dt>
-      <dd>{{ member.email }}</dd>
+      <dd>{{ member?.email }}</dd>
       <dt>保有ポイント</dt>
-      <dd>{{ member.points }}</dd>
+      <dd>{{ member?.points }}</dd>
       <dt>備考</dt>
       <dd>{{ localNote }}</dd>
     </dl>
-    <p>{{ $route.params }}</p>
   </section>
 </template>
