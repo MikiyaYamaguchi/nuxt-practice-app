@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import type { Member } from "@/interfaces";
+
 //ヘッダー情報設定
 const PAGE_TITLE = "会員詳細情報";
 const SITE_DESCRIPTION = "会員管理アプリケーションの会員詳細情報ページです。";
@@ -15,15 +17,18 @@ definePageMeta({
 //ルートオブジェクトを取得
 const router = useRoute();
 //サーバーAPIエンドポイントから会員詳細情報を取得
-const asyncData = useLazyFetch("/api/getOneMemberInfo", {
-  query: { id: router.params.id },
-});
-const member = asyncData.data;
+const asyncData = useLazyFetch(
+  `/member-management/members/${router.params.id}`
+);
+const responseData = asyncData.data;
 const pending = asyncData.pending;
+const member = computed((): Member | undefined => {
+  return responseData.value?.data[0];
+});
 //備考データがない場合の対応
 const localNote = computed((): string => {
   let localNote = "--";
-  if (member.value != null && member.value.note != undefined) {
+  if (member.value != undefined && member.value.note != undefined) {
     localNote = member.value.note;
   }
   return localNote;

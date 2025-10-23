@@ -27,9 +27,9 @@ const member: Member = reactive({
 //データ送信用のリアクティブ変数pendingの用意
 const pending = ref(false);
 //会員登録エンドポイントの実行
-const onAdd = async (): Promise<void> => {
+const onAdd = async () => {
   pending.value = true;
-  const asyncData = await useFetch("/api/addMemberInfo", {
+  const asyncData = await useFetch("/member-management/members", {
     method: "POST",
     body: member,
   });

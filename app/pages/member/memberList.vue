@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import type { Member } from "@/interfaces";
+
 //ヘッダー情報設定
 const PAGE_TITLE = "会員リスト";
 const SITE_DESCRIPTION = "会員管理アプリケーションの会員リストページです。";
@@ -12,9 +14,19 @@ definePageMeta({
   layout: "member",
 });
 
-const asyncData = useLazyFetch("/api/getMemberList");
-const memberList = asyncData.data;
+const asyncData = useLazyFetch("/member-management/members");
+const responseData = asyncData.data;
 const pending = asyncData.pending;
+
+const memberList = computed((): Member[] => {
+  //空の会員リスト配列を用意
+  let returnList: Member[] = [];
+  //レスポンスJSONデータがnull出ないならば
+  if (responseData.value != null) {
+    returnList = responseData.value.data;
+  }
+  return returnList;
+});
 </script>
 
 <template>
