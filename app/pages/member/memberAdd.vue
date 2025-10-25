@@ -26,6 +26,7 @@ const member: Member = reactive({
 });
 //データ送信用のリアクティブ変数pendingの用意
 const pending = ref(false);
+const noServerError = ref(true);
 //会員登録エンドポイントの実行
 const onAdd = async () => {
   pending.value = true;
@@ -33,8 +34,15 @@ const onAdd = async () => {
     method: "POST",
     body: member,
   });
-  if (asyncData.data.value != null && asyncData.data.value.result == 1) {
+  if (
+    asyncData.error.value == null &&
+    asyncData.data.value != null &&
+    asyncData.data.value.result == 1
+  ) {
     router.push({ name: "member-memberList" });
+  } else {
+    pending.value = false;
+    noServerError.value = false;
   }
 };
 </script>
@@ -55,7 +63,12 @@ const onAdd = async () => {
     <h2>{{ PAGE_TITLE }}</h2>
     <p v-if="pending">データ送信中...</p>
     <template v-else>
-      <p>情報を追加し、登録ボタンをクリックしてください。</p>
+      <p v-if="noServerError">
+        情報を追加し、登録ボタンをクリックしてください。
+      </p>
+      <p v-else>
+        サーバ処理中に障害が発生しました。もう一度登録を行なってくだい。
+      </p>
       <form v-on:submit.prevent="onAdd">
         <dl>
           <dt>
