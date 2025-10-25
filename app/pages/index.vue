@@ -1,24 +1,15 @@
 <template>
-  <ul>
-    <li>
-      <NuxtLink v-bind:to="{ name: 'errorHandlerBasic' }">
-        エラー表示実験
+  <h1>TOP</h1>
+  <nav id="breadcrumbs">
+    <ul>
+      <li>TOP</li>
+    </ul>
+  </nav>
+  <section>
+    <p>
+      <NuxtLink v-bind:to="{ name: 'member-memberList' }">
+        会員管理はこちら
       </NuxtLink>
-    </li>
-    <li>
-      <NuxtLink v-bind:to="{ name: 'errorHandlerNavigate' }">
-        画面表示時のエラー実験
-      </NuxtLink>
-    </li>
-    <li>
-      <NuxtLink v-bind:to="{ name: 'errorHandlerFatal' }">
-        致命的エラー発生実験
-      </NuxtLink>
-    </li>
-    <li>
-      <NuxtLink v-bind:to="{ name: 'errorHandlerServer' }">
-        サーバエラー発生実験
-      </NuxtLink>
-    </li>
-  </ul>
+    </p>
+  </section>
 </template>
