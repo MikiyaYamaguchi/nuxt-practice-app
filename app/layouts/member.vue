@@ -1,6 +1,7 @@
 <template>
   <header>
-    <h1>エラー処理サンプル</h1>
+    <h1>ミドルウェアサンプル</h1>
+    <TheLoggedInSection />
   </header>
   <main>
     <h1>会員管理</h1>
