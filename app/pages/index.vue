@@ -2,7 +2,7 @@
 console.log("index.vue started");
 
 definePageMeta({
-  middleware: ["logging", "loggedin-check"],
+  middleware: ["loggedin-check"],
 });
 </script>
 
