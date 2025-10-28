@@ -1,3 +1,22 @@
+<script setup lang="ts">
+import type { User } from "@/interfaces";
+
+console.log("index.vue started");
+
+definePageMeta({
+  //インラインルートミドルウェア（未ログイン時はログイン画面へ遷移する処理）
+  middleware: (to, from) => {
+    const loginTokenCookie = useCookie<string | null>("loginToken");
+    const loginUserCookie = useCookie<User | null>("loginUser");
+    if (loginTokenCookie.value == null || loginUserCookie.value == null) {
+      return navigateTo("/login");
+    } else {
+      return;
+    }
+  },
+});
+</script>
+
 <template>
   <h1>TOP</h1>
   <nav id="breadcrumbs">
