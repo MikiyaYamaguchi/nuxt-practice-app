@@ -10,9 +10,6 @@ node_modules/
 # Vite キャッシュ（Nuxt 3 + Vite の場合）
 .vite/
 
-# Next-gen Nitro server build output (Nuxt 3)
-server/
-
 # 環境変数ファイル
 .env
 .env.*.local
