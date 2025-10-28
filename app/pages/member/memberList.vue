@@ -12,6 +12,7 @@ useHead({
 //テンプレートの指定
 definePageMeta({
   layout: "member",
+  middleware: ["loggedin-check"],
 });
 
 const asyncData = useLazyFetch("/member-management/members");

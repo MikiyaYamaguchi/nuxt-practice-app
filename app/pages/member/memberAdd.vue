@@ -12,6 +12,7 @@ useHead({
 //テンプレートの指定
 definePageMeta({
   layout: "member",
+  middleware: ["loggedin-check"],
 });
 
 //ルートオブジェクトを取得
